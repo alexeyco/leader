@@ -4,14 +4,19 @@ services:
   etcd:
     image: bitnami/etcd:latest
     restart: unless-stopped
+    environment:
+      ALLOW_NONE_AUTHENTICATION: "yes"
     networks:
       - internal
 
   pkg:
-    image: golang:1.14.3-alpine
+    build:
+      dockerfile: Dockerfile
+      context: .
     volumes:
-      - ../../../:/go/src/github.com/alexeyco/leader
+      - ./:/go/src/github.com/alexeyco/leader
     working_dir: /go/src/github.com/alexeyco/leader
+    command: tail -f /dev/null
 
 networks:
   internal:

@@ -1,0 +1,18 @@
+version: "3.7"
+
+services:
+  etcd:
+    image: bitnami/etcd:latest
+    restart: unless-stopped
+    networks:
+      - internal
+
+  pkg:
+    image: golang:1.14.3-alpine
+    volumes:
+      - ../../../:/go/src/github.com/alexeyco/leader
+    working_dir: /go/src/github.com/alexeyco/leader
+
+networks:
+  internal:
+    external: false
